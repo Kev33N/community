@@ -3,7 +3,6 @@ package life.hardy.community.controller;
 import life.hardy.community.domain.User;
 import life.hardy.community.dto.AccessTokenDTO;
 import life.hardy.community.dto.GithubUser;
-import life.hardy.community.dto.LocalUser;
 import life.hardy.community.mapper.UserMapper;
 import life.hardy.community.provider.GithubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
@@ -66,17 +67,21 @@ public class AuthorizeController {
     }
 
     @RequestMapping("/user/login")
-    public String loginTest(String username,String password,HttpServletRequest request){
+    public String loginTest(String username, String password, HttpServletRequest request, HttpServletResponse response){
         User user = new User();
-        user.setToken(UUID.randomUUID().toString());
+        String token = UUID.randomUUID().toString();
+        user.setToken(token);
         user.setName(username);
         user.setAccountId(password);
         user.setGmtCreate(System.currentTimeMillis());
         user.setGmtModified(user.getGmtCreate());
         userMapper.insert(user);
 
-        request.getSession().setAttribute("user",user);
-        System.out.println(username+":"+password);
+        Cookie cookie = new Cookie("token", token);
+        cookie.setMaxAge(3600);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
         return "redirect:/";
     }
 }
