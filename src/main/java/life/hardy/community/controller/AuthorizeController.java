@@ -1,6 +1,6 @@
 package life.hardy.community.controller;
 
-import life.hardy.community.dto.AccessTokenDto;
+import life.hardy.community.dto.AccessTokenDTO;
 import life.hardy.community.dto.GithubUser;
 import life.hardy.community.provider.GithubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +17,11 @@ public class AuthorizeController {
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state){
-        AccessTokenDto accessTokenDto = new AccessTokenDto();
-        accessTokenDto.setClientId("b61df0ff427d7a0af9c8");
-        accessTokenDto.setClientSecret("b463d40288c7ee468528ef24a178496a7f6d6656");
+        AccessTokenDTO accessTokenDto = new AccessTokenDTO();
+        accessTokenDto.setClient_id("b61df0ff427d7a0af9c8");
+        accessTokenDto.setClient_secret("b463d40288c7ee468528ef24a178496a7f6d6656");
         accessTokenDto.setCode(code);
-        accessTokenDto.setRedirectUri("http://localhost:8887/callback");
+        accessTokenDto.setRedirect_uri("http://localhost:8887/callback");
         accessTokenDto.setState(state);
         String accessToken = githubProvider.getAccessToken(accessTokenDto);
         System.out.println("accessToken:"+accessToken);
