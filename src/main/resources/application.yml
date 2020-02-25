@@ -5,3 +5,10 @@ github:
   client_id: b61df0ff427d7a0af9c8
   client_secret: b463d40288c7ee468528ef24a178496a7f6d6656
   redirect_uri: http://localhost:8887/callback
+
+spring:
+  datasource:
+    url: jdbc:mysql:///community?serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 0208055201314s
